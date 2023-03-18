@@ -31,7 +31,7 @@ jobs:
       - name: Extract number from tag with sed
         id: get_time
         run: |
-          tag="Released on 202303172210"&& number=$(echo "$tag" | sed 's/[^0-9]*//g') && echo -n $number
+          tag="Released on 202303172210"&& number=$(echo "$tag" | sed 's/[^0-9]*//g') && echo $number  >> "$GITHUB_OUTPUT"
       - name: Create a release
         if: steps.build.outputs.skip != 'true'
         id: create_release
@@ -39,8 +39,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_time.outputs }}
-          release_name: ${{ steps.get_time.outputs }}
+          tag_name: ${{ steps.get_time.outputs.output1 }}
+          release_name: ${{ steps.get_time.outputs.output1 }}
           draft: false
           prerelease: false
       - name: Release geosite.db
