@@ -31,9 +31,7 @@ jobs:
       - name: Extract number from tag with sed
         id: get_time
         run: |
-          tag="${{ steps.build.outputs.tag }}"
-          number=$(echo "$tag" | sed 's/[^0-9]*//g')
-          echo $number # Output: 123
+          tag="Released on 202303172210"&& number=$(echo "$tag" | sed 's/[^0-9]*//g') && echo $number
       - name: Create a release
         if: steps.build.outputs.skip != 'true'
         id: create_release
